@@ -16,5 +16,8 @@ setup(
     ],
     license='MIT',
     packages=['cloudfront'],
+    install_requires=[
+        'pycrypto==2.6',
+    ],
     zip_safe=False
 )
