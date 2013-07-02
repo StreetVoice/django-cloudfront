@@ -72,6 +72,9 @@ def _encode_query_param(resource):
 def sign(resource, secs=10):
     expires = int(time.time()) + secs
 
+    if not PRIVATE_KEY or not KEY_PAIR_ID:
+        assert False, 'Please provide CLOUDFRONT_PRIVATE_KEY and CLOUDFRONT_KEY_PAIR_ID in settings.py'
+
     signed_url = _get_canned_policy_url(resource, PRIVATE_KEY, KEY_PAIR_ID, expires)
 
     # for flash streaming
