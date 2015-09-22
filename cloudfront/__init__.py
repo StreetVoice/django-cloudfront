@@ -24,20 +24,20 @@ def _get_signature(message, private_key):
     key = Crypto.PublicKey.RSA.importKey(private_key)
     signer = Crypto.Signature.PKCS1_v1_5.new(key)
     sha1_hash = Crypto.Hash.SHA.new()
-    sha1_hash.update(bytes(message))
+    sha1_hash.update(message.encode('utf-8'))
     return signer.sign(sha1_hash)
 
 
 def _base64_encode(msg):
     msg_base64 = base64.b64encode(msg)
-    msg_base64 = msg_base64.replace('+', '-')
-    msg_base64 = msg_base64.replace('=', '_')
-    msg_base64 = msg_base64.replace('/', '~')
+    msg_base64 = msg_base64.replace(b'+', b'-')
+    msg_base64 = msg_base64.replace(b'=', b'_')
+    msg_base64 = msg_base64.replace(b'/', b'~')
     return msg_base64
 
 
 def _create_url(url, encoded_signature, key_pair_id, expires):
-    params = urllib.urlencode({
+    params = urllib.parse.urlencode({
         'Expires': expires,
         'Signature': encoded_signature,
         'Key-Pair-Id': key_pair_id
